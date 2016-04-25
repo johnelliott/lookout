@@ -1,0 +1,18 @@
+{
+  "name": "lookout",
+  "version": "1.0.0",
+  "description": "speak hourly pedestrian counts from placemeter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "for i in {1..4}; do node index.js $PMKEY; sleep 60; done",
+    "dbg": "DEBUG=lookout* nodemon index.js $PMKEY"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
