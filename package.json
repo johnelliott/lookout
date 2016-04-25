@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "speak hourly pedestrian counts from placemeter",
   "main": "index.js",
+  "bin": {
+    "lookout": "index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "continuous": "for i in {1..4}; do node index.js --key $PMKEY --point $POINT; sleep 60; done",

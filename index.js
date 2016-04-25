@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fetch = require('isomorphic-fetch')
 var url = require('url')
 var cp = require('child_process')
