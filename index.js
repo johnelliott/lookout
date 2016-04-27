@@ -50,44 +50,18 @@ var metadataUrl = url.format({
 debug('metadataUrl', metadataUrl)
 
 var metadata = fetch(metadataUrl, config)
-.then(function(response) {
-  debug(response.headers.get('Content-Type'))
-  debug(response.headers.get('Date'))
-  debug(response.status)
-  debug(response.statusText)
-  debug(response.url)
-  // TODO replace with better error handling
-  if (response.statusText === "UNAUTHORIZED" || process.status >=400) process.exit(1)
-    return response
-})
+.then(checkHeaders)
 .then(function(res) {
   return res.json()
 })
-.catch(function(e) {
-  debug(e)
-  console.error(e)
-  process.exit(1)
-})
+.catch(logAndExit)
 
 var pointData = fetch(dataUrl, config)
-.then(function(response) {
-  debug(response.headers.get('Content-Type'))
-  debug(response.headers.get('Date'))
-  debug(response.status)
-  debug(response.statusText)
-  debug(response.url)
-  // TODO replace with better error handling
-  if (response.statusText === "UNAUTHORIZED") process.exit(1)
-    return response
-})
+.then(checkHeaders)
 .then(function(res) {
   return res.json()
 })
-.catch(function(e) {
-  debug(e)
-  console.error(e)
-  process.exit(1)
-})
+.catch(logAndExit)
 
 Promise.all([metadata, pointData]).then(function(values) {
   // Placemeter has non-overlapping keys for these two endpoints, so merge data
@@ -113,6 +87,23 @@ Promise.all([metadata, pointData]).then(function(values) {
     speak(message)
   }
 })
+
+function logAndExit(e) {
+  debug(e)
+  console.error(e)
+  process.exit(1)
+}
+
+function checkHeaders(response) {
+  debug(response.headers.get('Content-Type'))
+  debug(response.headers.get('Date'))
+  debug(response.status)
+  debug(response.statusText)
+  debug(response.url)
+  // TODO replace with better error handling
+  if (response.statusText === "UNAUTHORIZED" || process.status >=400) process.exit(1)
+    return response
+}
 
 function speak(message) {
   return cp.spawn('say', [message])
